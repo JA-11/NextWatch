@@ -28,3 +28,7 @@ body {
   padding-bottom: 100px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
+
+tbody tr:hover {
+  background-color: rgb(190, 224, 255);
+}
