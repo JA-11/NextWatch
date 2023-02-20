@@ -3,27 +3,34 @@ import css from './Home.module.css';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { LogInModal } from '../LogIn/LogInModal';
+
 const homeBackground = {
     backgroundImage: "url('./movies.jpg')",
     backgroundSize: 'cover',
 }
+
 export class Home extends React.Component {
     static displayName = Home.name;
+
     constructor(props) {
         super(props);
         this.state = {
             isModalOpen: false,
         };
+
         this.handleModalOpen = this.handleModalOpen.bind(this);
     }
+
     handleModalOpen() {
         this.setState((prevState) => {
             return { isModalOpen: !prevState.isModalOpen }
         })
     }
+
     componentDidMount() {
         document.body.style = { homeBackground };
     }
+    
     render() {
         return (
             <div>

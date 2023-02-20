@@ -5,15 +5,11 @@ import * as yup from "yup";
 import Button from 'react-bootstrap/Button';
 import css from './LogInForm.module.css';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from "bcryptjs";
 
 const schema = yup.object().shape({
     email: yup.string().email("Please enter your email address").required("Please enter your email address"),
     password: yup.string().required("Please enter your password"),
 });
-
-//var bcrypt = require('bcryptjs');
-var salt = bcrypt.genSaltSync(10);
 
 export function LogInForm() {
 
@@ -28,19 +24,17 @@ export function LogInForm() {
     const [password, setPassword] = useState(""); //Setting the password entered in password textbox.
 
     const submitLogInForm = () => {
-        
 
         fetch(`login/${email}`, {  //this is fetching from the Login API controller to pull a specific user for the email entered
             method: 'GET',
             headers: { 'Content-type': 'application/json' },
 
-        }).then(r => r.json()).then(res => {        
-            //let x = res.data[0][password];
-            var hash = bcrypt.hashSync(password, salt);
+        }).then(r => r.json()).then(res => {
+
             if (res) {
                 if (res.length > 0) {
                     //This checks if the password entered matches the password for that email in the database
-                    if (bcrypt.compareSync(password, hash)) {
+                    if (res[0]['password'] === password) {
                         window.user = res[0]['userName'];  // If yes, store the username in a window variable to pass to user profile page.
                         window.userid = res[0]['id'];  //If yes, store the id in a window variable to pass to user profile page.
                         navigate('/user-profile');
@@ -72,4 +66,3 @@ export function LogInForm() {
         </div>
     );
 }
-
