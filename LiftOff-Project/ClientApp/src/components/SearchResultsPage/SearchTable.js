@@ -3,13 +3,8 @@ import { Table } from 'reactstrap';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { useHistory } from 'react-router-dom';
-//import css from '../HomePage/Home.module.css';
 import css from './SearchTable.module.css';
-const homeBackground = {
-    backgroundImage: "url('./movies.jpg')",
-    backgroundSize: 'cover',
-}
+
 export class SearchTable extends React.Component {
     constructor(props) {
         super(props);
@@ -18,10 +13,12 @@ export class SearchTable extends React.Component {
         this.state = { moviesAttachedToStreamers: [] }
         this.state = { pageOn: window.pageNum }
     }
+
     //Users ID
     //GET from our databse : UserWatchlist && watchlistmovieid
     //Loop with axios to
     //
+
     async componentDidMount() {
         //const [Post, setPost] = React.useState(null);
         document.body.style.background = "white";
@@ -45,6 +42,7 @@ export class SearchTable extends React.Component {
         let awaitStreamResponse = [];
         let movieResponse;
         let genreResponse;
+
         const getAll = async () => {
             let promises = [];
             let movieGet = await Axios.get(
@@ -80,9 +78,11 @@ export class SearchTable extends React.Component {
     addToWatchlist = async (movieid, userid) => {
         const url = `usermovieid/`;  //API controller URL
         var ifExists = false;
+
         fetch(`usermovieid/${userid}`, {  //this is fetching from the Login API controller to pull a specific user for the email entered
             method: 'GET',
             headers: { 'Content-type': 'application/json' },
+
         }).then(r => r.json()).then(res => {
             if (res.length > 0) {
                 console.log("here");
@@ -94,6 +94,7 @@ export class SearchTable extends React.Component {
                 }
             }
         })
+
         if (!ifExists) {
             let movieinfo = {
                 UserId: userid,
@@ -103,20 +104,24 @@ export class SearchTable extends React.Component {
             alert("Added to the watchlist");
         }
     }
+
     clickLogOut = () => {
         window.user = null;
         window.userid = null;
     };
+
     clickNextPage = () => {
         window.pageNum++;
         this.pageOn = window.pageNum;
         this.componentDidMount();
     }
+
     clickLastPage = () => {
         window.pageNum--;
         this.pageOn = window.pageNum;
         this.componentDidMount();
     }
+
     render() {
         if (this.state.movies === undefined || this.state.genres === undefined /*|| this.state.moviesAttachedToStreamers === null*/) {
             return (
@@ -132,6 +137,7 @@ export class SearchTable extends React.Component {
             //The following determines whether to show or allow users to use the page buttons (if there is no further page, no nextpage, if on page one, no previous)
             let previousPageButton;
             let nextPageButton;
+
             if (window.pageNum === 1) {
                 previousPageButton = <Button disabled className={css.click}>Previous Page</Button>
             } else {
@@ -139,6 +145,7 @@ export class SearchTable extends React.Component {
                     <Button className={css.click} variant="primary" onClick={() => this.clickLastPage()}>Previous Page</Button>{' '}
                 </Link>
             }
+
             if (window.pageNum < this.state.movies.total_pages) {
                 nextPageButton = <Link to="/search-table">
                     <Button className={css.click} variant="primary" onClick={() => this.clickNextPage()}>Next Page</Button>{' '}
@@ -146,9 +153,10 @@ export class SearchTable extends React.Component {
             } else {
                 nextPageButton = <Button disabled className={css.click}>Next Page</Button>
             }
+
             return (
                 <div>
-                    <h2 className={css.h2}>Here are your search results:
+                    <h2 className={css.h2}>Search results for "{window.searchTerm}":
                         <Link to="/">
                             <Button className={css.click} variant="primary" onClick={() => this.clickLogOut()}>Log Out</Button>{' '}
                         </Link>
@@ -159,12 +167,12 @@ export class SearchTable extends React.Component {
                             <Button className={css.click} variant="primary">Search Again</Button>{' '}
                         </Link>
                     </h2>
-                    <h4>Page Number: {window.pageNum} out of {this.state.movies.total_pages}</h4>
+
                     <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Genre</th>
+                                <th>Genre(s)</th>
                                 <th>Streaming</th>
                                 <th>Rent</th>
                                 <th>Save(?)</th>
@@ -220,25 +228,24 @@ export class SearchTable extends React.Component {
                                         <td key={`${movieHit.id}stream`}>{thisHitsStreamingServices}</td>
                                         <td key={`${movieHit.id}rent`}>{thisHitsRentals}</td>
                                         <td>
-                                            <button onClick={() => this.addToWatchlist(`${movieHit.id}`, `${window.userid}`)}>Add</button>
+                                            <Button className={css.add} variant="primary" onClick={() => this.addToWatchlist(`${movieHit.id}`, `${window.userid}`)}>Add</Button>{' '}
                                         </td>
                                     </tr>
                                 )
                             })}
                         </tbody>
                     </Table>
-                    <p>Page Number: {window.pageNum} out of {this.state.movies.total_pages}</p>
-                    {nextPageButton}
-                    {previousPageButton}
+
+                    <div className={css.left}>
+                        <p className={css.page}>Page Number: {window.pageNum} out of {this.state.movies.total_pages}</p>
+                    </div>
+                    <div className={css.right}>
+                        {previousPageButton}
+                        {nextPageButton}
+                    </div>
+
                 </div >
             )
         }
     }
 }
-
-
-
-
-
-
-

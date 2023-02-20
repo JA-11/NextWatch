@@ -13,3 +13,26 @@
     background-color: rgb(31, 172, 31);
     border-color: rgb(31, 172, 31);
 }
+
+.page {
+    font-size: 24px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    display: flex;
+    justify-content: right;
+}
+
+.add {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.add:hover {
+    background-color: rgb(31, 172, 31);
+    border-color: rgb(31, 172, 31);
+}
