@@ -28,7 +28,7 @@ export function SearchBar() {
                 type="text"
                 value={searchTerm}
                 onChange={handleChange}
-                placeholder="Search by movie title..."
+                placeholder="Search by keyword or movie title..."
             />
             <Button variant="primary" type="submit" className={css.click} disabled={!searchTerm}>Search</Button>{' '}
         </form>
