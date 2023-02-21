@@ -13,7 +13,7 @@ It can be overwhelming to find a movie to watch these days with many different s
 <li>Store user and watch list information in MySQL database</li>
 </ul>
 
-#Tech Stack:
+# Tech Stack:
 <ul>
 <li>JavaScript</li>
 <li>CSS</li>
